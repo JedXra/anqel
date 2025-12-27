@@ -1,0 +1,1760 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tournaments</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+<link rel="icon" type="image/x-icon" href="https://i.imgur.com/uh5GBvs.png">
+<link rel="shortcut icon" href="https://i.imgur.com/uh5GBvs.png" type="image/x-icon">
+<link rel="apple-touch-icon" sizes="180x180" href="https://i.imgur.com/uh5GBvs.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://i.imgur.com/uh5GBvs.png">
+<link rel="icon" type="image/png" sizes="16x16" href="https://i.imgur.com/uh5GBvs.png">
+<link rel="manifest" href="data:application/json,{%22name%22:%22anqel%22,%22icons%22:[{%22src%22:%22https://i.imgur.com/uh5GBvs.png%22,%22sizes%22:%22192x192%22,%22type%22:%22image/png%22}],%22theme_color%22:%22%23000000%22,%22background_color%22:%22%23000000%22}">
+<meta name="msapplication-TileImage" content="https://i.imgur.com/uh5GBvs.png">
+<meta name="msapplication-TileColor" content="#000000">
+<link rel="mask-icon" href="https://i.imgur.com/uh5GBvs.png" color="#000000">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Orbitron', monospace;
+            background-color: #000000;
+            color: #ffffff;
+            line-height: 1.6;
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Background collage */
+        .manga-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.25;
+        }
+
+        .bg-image {
+            position: absolute;
+            background-size: cover;
+            background-position: center;
+            filter: blur(6px) grayscale(100%) brightness(0.7);
+        }
+
+        .bg-1 {
+            top: 0;
+            left: 0;
+            width: 40%;
+            height: 40%;
+            background-image: url('https://i.imgur.com/uEDHnAg.jpeg');
+            border-radius: 50%;
+            transform: translate(-30%, -30%);
+        }
+
+        .bg-2 {
+            top: 0;
+            right: 0;
+            width: 50%;
+            height: 60%;
+            background-image: url('https://i.imgur.com/IESdKRo.png');
+            transform: translate(30%, -30%);
+        }
+
+        .bg-3 {
+            bottom: 0;
+            left: 0;
+            width: 50%;
+            height: 50%;
+            background-image: url('https://i.imgur.com/KcG0ryY.png');
+            transform: translate(-30%, 30%);
+            opacity: 0.8;
+        }
+
+        .bg-4 {
+            bottom: 0;
+            right: 0;
+            width: 40%;
+            height: 40%;
+            background-image: url('https://i.imgur.com/Qsez2Ka.jpeg');
+            transform: translate(30%, 30%);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Header */
+        header {
+            padding: 80px 0 40px;
+            position: relative;
+            border-bottom: 2px solid #ffffff;
+            margin-bottom: 60px;
+        }
+
+        .profile-container {
+            display: flex;
+            align-items: center;
+            gap: 40px;
+            flex-wrap: wrap;
+        }
+
+        .profile-image {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 4px solid #ffffff;
+            position: relative;
+            background: url('https://i.imgur.com/uEDHnAg.jpeg') center/cover;
+            box-shadow: 0 0 30px rgba(255, 255, 255, 0.2);
+            animation: pulse 4s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { box-shadow: 0 0 30px rgba(255, 255, 255, 0.2); }
+            50% { box-shadow: 0 0 50px rgba(255, 255, 255, 0.4); }
+        }
+
+        .profile-info {
+            flex: 1;
+        }
+
+        .name {
+            font-size: 4.5rem;
+            font-weight: 900;
+            letter-spacing: 2px;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+        }
+
+        .name span {
+            color: #ffffff;
+            position: relative;
+            display: inline-block;
+        }
+
+        .name span::after {
+            content: '';
+            position: absolute;
+            bottom: 5px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: #ffffff;
+            transform: scaleX(0);
+            transform-origin: right;
+            animation: underline 2s 1s forwards;
+        }
+
+        @keyframes underline {
+            to { transform: scaleX(1); }
+        }
+
+        .title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #cccccc;
+            margin-bottom: 25px;
+            letter-spacing: 1px;
+        }
+
+        .roles {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .role-tag {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid #ffffff;
+            padding: 10px 25px;
+            font-size: 1rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s;
+        }
+
+        .role-tag:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-3px);
+        }
+
+        /* Navigation */
+        nav {
+            margin-bottom: 60px;
+            position: top;
+            top: 20px;
+            z-index: 100;
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: center;
+            background: rgba(0, 0, 0, 0.8);
+            border: 2px solid #ffffff;
+            padding: 15px;
+            backdrop-filter: blur(10px);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 60px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: #ffffff;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.1rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            position: relative;
+            padding: 5px 0;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #ffffff;
+            transition: width 0.3s;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: 2px solid #ffffff;
+            color: #ffffff;
+            padding: 10px 20px;
+            font-family: 'Orbitron', monospace;
+            font-weight: 700;
+            cursor: pointer;
+            letter-spacing: 2px;
+        }
+
+        /* Sections */
+        .section {
+            margin-bottom: 80px;
+            border: 2px solid #ffffff;
+            padding: 40px;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(10px);
+            position: relative;
+        }
+
+        .section::before {
+            content: '';
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            right: 10px;
+            bottom: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            pointer-events: none;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 30px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            position: relative;
+            padding-bottom: 15px;
+            display: inline-block;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: #ffffff;
+        }
+
+        /* Tournaments */
+        .tournament-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 30px;
+        }
+
+        .tournament-card {
+            border: 2px solid #ffffff;
+            padding: 25px;
+            background: rgba(0, 0, 0, 0.9);
+            position: relative;
+            transition: transform 0.3s;
+        }
+
+        .tournament-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .tournament-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 20px;
+        }
+
+        .tournament-header h3 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            margin-bottom: 5px;
+        }
+
+        .tournament-logo {
+            width: 50px;
+            height: 50px;
+            background: url('https://i.imgur.com/KcG0ryY.png') center/contain no-repeat;
+        }
+
+        .tournament-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .meta-tag {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid #ffffff;
+            padding: 5px 15px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+
+        .tournament-details {
+            margin-bottom: 25px;
+        }
+
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .detail-row:last-child {
+            border-bottom: none;
+        }
+
+        .detail-label {
+            color: #cccccc;
+            font-weight: 600;
+        }
+
+        .detail-value {
+            font-weight: 700;
+        }
+
+        .prize {
+            color: #ffffff;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+        }
+        .date {
+            color: #ffffff;
+            font-weight: 800;
+        }
+
+        .platform-card {
+            border: 2px solid #ffffff;
+            padding: 25px; /* Reduced padding */
+            text-align: center;
+            background: rgba(0, 0, 0, 0.9);
+            transition: all 0.3s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            min-height: 280px; /* Fixed height */
+        }
+
+        /* Specifically fix Challengermode card */
+        .platform-card:nth-child(2) {
+            padding-top: 15px; /* Less top padding */
+            padding-bottom: 15px; /* Less bottom padding */
+        }
+
+        .platform-card:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .platform-icon {
+            font-size: 2.5rem; /* Slightly smaller */
+            margin-bottom: 15px;
+            color: #ffffff;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .platform-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 10px; /* Reduced */
+            letter-spacing: 2px;
+            font-weight: 700;
+            line-height: 1.3;
+        }
+
+        .platform-card p {
+            color: #cccccc;
+            margin-bottom: 15px; /* Reduced */
+            font-size: 0.9rem;
+            line-height: 1.4;
+            flex-grow: 1;
+        }
+
+        /* Buttons */
+        .manga-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 30px; /* Slightly smaller */
+            background: #000000;
+            color: #ffffff;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 0.9rem; /* Smaller font */
+            border: 2px solid #ffffff;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .manga-btn:hover {
+            background: #ffffff;
+            color: #000000;
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(255, 255, 255, 0.2);
+        }
+
+        /* Disclaimer */
+        .disclaimer {
+            border: 2px solid #ffffff;
+            padding: 25px;
+            margin: 40px 0;
+            background: rgba(0, 0, 0, 0.9);
+            position: relative;
+        }
+
+        .disclaimer h4 {
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            letter-spacing: 2px;
+            color: #ffffff;
+        }
+
+        .disclaimer p {
+            color: #cccccc;
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        /* Footer */
+        footer {
+            border-top: 2px solid #ffffff;
+            padding: 60px 0 30px;
+            margin-top: 80px;
+            background: rgba(0, 0, 0, 0.8);
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-column h3 {
+            font-size: 1.3rem;
+            margin-bottom: 25px;
+            letter-spacing: 2px;
+            font-weight: 800;
+            text-transform: uppercase;
+        }
+
+        .footer-column p {
+            color: #cccccc;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+        }
+
+        .social-link {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 50px;
+            height: 50px;
+            border: 2px solid #ffffff;
+            color: #ffffff;
+            text-decoration: none;
+            font-size: 1.3rem;
+            transition: all 0.3s;
+        }
+
+        .social-link:hover {
+            background: #ffffff;
+            color: #000000;
+            transform: translateY(-5px);
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.3);
+            color: #888888;
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+        }
+
+        /* Responsive */
+        @media (max-width: 992px) {
+            .name {
+                font-size: 3.5rem;
+            }
+            
+            .tournament-grid {
+                grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            }
+            
+            .nav-links {
+                gap: 40px;
+            }
+            
+            .bg-1, .bg-2, .bg-3, .bg-4 {
+                opacity: 0.15;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .mobile-menu-btn {
+                display: block;
+                margin: 0 auto 20px;
+            }
+            
+            .nav-container {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .nav-links {
+                flex-direction: column;
+                gap: 20px;
+                text-align: center;
+                display: none;
+            }
+            
+            .nav-links.active {
+                display: flex;
+            }
+            
+            .profile-container {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .roles {
+                justify-content: center;
+            }
+            
+            .name {
+                font-size: 2.8rem;
+            }
+            
+            .section {
+                padding: 30px 20px;
+            }
+            
+            .platform-card {
+                min-height: 260px;
+                padding: 20px;
+            }
+            
+            .manga-btn {
+                padding: 10px 25px;
+                font-size: 0.85rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .tournament-grid,
+            .platforms-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .name {
+                font-size: 2.2rem;
+            }
+            
+            .profile-image {
+                width: 160px;
+                height: 160px;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+            
+            .bg-1, .bg-2, .bg-3, .bg-4 {
+                opacity: 0.1;
+            }
+        }
+
+        /* Manga accent lines */
+        .accent-line {
+            position: absolute;
+            background: #ffffff;
+            z-index: -1;
+            opacity: 0.1;
+        }
+
+        .line-1 {
+            top: 20%;
+            left: 5%;
+            width: 100px;
+            height: 2px;
+            transform: rotate(45deg);
+        }
+
+        .line-2 {
+            bottom: 30%;
+            right: 10%;
+            width: 80px;
+            height: 2px;
+            transform: rotate(-45deg);
+        }
+        
+
+    </style>
+</head>
+<body>
+    <!-- Background Collage -->
+    <div class="manga-bg">
+        <div class="bg-image bg-1"></div>
+        <div class="bg-image bg-2"></div>
+        <div class="bg-image bg-3"></div>
+        <div class="bg-image bg-4"></div>
+    </div>
+    
+    <!-- Accent lines -->
+    <div class="accent-line line-1"></div>
+    <div class="accent-line line-2"></div>
+    <!-- Container -->
+    <div class="container">
+       <!-- Navigation -->
+        <nav>
+            <div class="nav-container">
+                <button class="mobile-menu-btn" id="mobileMenuBtn">
+                    MENU <i class="fas fa-bars"></i>
+                </button>
+                <ul class="nav-links" id="navLinks">
+                    <li><a href="index.html">Main Page</a></li>
+                    
+                    
+                </ul>
+            </div>
+        </nav>
+
+        <!-- Tournaments -->
+        <section class="section" id="tournaments">
+            <h2 class="section-title">CURRENT TOURNAMENTS</h2>
+            
+            <div class="tournament-grid">
+                <!-- Tournament 1 -->
+                <div class="tournament-card">
+                    <div class="tournament-header">
+                        <div>
+                            <h3>RADIANCE ANGELS: <br>RE-IGNITE SERIES</h3>
+                            <p style="color: #cccccc; font-size: 0.9rem;">Recurring weekly mini tournament</p>
+                        </div>
+                        <div class="tournament-logo"></div>
+                    </div>
+                    <div class="tournament-meta">
+                        <span class="meta-tag">8 Teams</span>
+                        <span class="meta-tag">All Ranks Allowed</span>
+                        <span class="meta-tag">No Prize Pool</span>
+                    </div>
+                    <div class="tournament-details">
+                        <div class="detail-row">
+                            <span class="detail-label">BRACKET FORMAT:</span>
+                            <span class="detail-value">Double Elimination</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">MATCH FORMAT:</span>
+                            <span class="detail-value">ALL BO1</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">SCHEDULE:</span>
+                            <span class="detail-value date">CHECK OUR DISCORD</span>
+                        </div>
+                    </div>
+                    <a href="https://discord.gg/b3Yr5wggcp" class="manga-btn" target="_blank">
+                        <i class="fab fa-discord"></i> REGISTER NOW
+                    </a>
+                </div>
+
+                <!-- Tournament 2 -->
+                <div class="tournament-card">
+                    <div class="tournament-header">
+                        <div>
+                            <h3>RADIANCE ANGELS: LUMINANCE SERIES</h3>
+                            <p style="color: #cccccc;font-size: 0.9rem;">Our monthly main event</p>
+                        </div>
+                        <div class="tournament-logo"></div>
+                    </div>
+                    <div class="tournament-meta">
+                        <span class="meta-tag">64 Teams</span>
+                        <span class="meta-tag">Ascendant+</span>
+                        <span class="meta-tag">Prize Pool Provided </span>
+                    </div>
+                    <div class="tournament-details">
+                        <div class="detail-row">
+                            <span class="detail-label">BRACKET FORMAT:</span>
+                            <span class="detail-value">Groups > Single Elimination</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">MATCH FORMAT:</span>
+                            <span class="detail-value">Groups BO1 | Playoffs BO3</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">PRIZE POOL:</span>
+                            <span class="detail-value prize">€300 TOTAL</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">PRIZE DISTRIBUTION:</span>
+                            <span class="detail-value">1ST €210 | 2ND 90€</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">ENTRY FEE:</span>
+                            <span class="detail-value">5€ PER TEAM</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">SCHEDULE:</span>
+                            <span class="detail-value date">25 JAN - 1 FEB</span>
+                        </div>
+                    </div>
+                    <a href="https://discord.gg/b3Yr5wggcp" class="manga-btn" target="_blank">
+                        <i class="fab fa-discord"></i> REGISTER NOW
+                    </a>
+                </div>
+            </div>
+        </section>
+
+
+<!-- Platforms -->
+<section class="section" id="platforms">
+    <h2 class="section-title">HOSTING PLATFORMS</h2>
+    
+    <div class="platforms-grid">
+        <!-- Challengermode -->
+        <div class="platform-card">
+            <div class="platform-icon">
+                <i class="fas fa-trophy"></i>
+            </div>
+            <h3>Challengermode </h3>
+            <p>Our weekly & for fun events will be mostly hosted on Challengermode.</p>
+            <a href="https://www.challengermode.com/s/radianceangels" class="manga-btn platform-btn" target="_blank">
+                View Tournaments
+            </a>
+        </div>
+
+        <!-- Battlefly -->
+        <div class="platform-card">
+            <div class="platform-icon">
+                <i class="fas fa-trophy"></i>
+            </div>
+            <h3>Battlefly</h3>
+            <p>Our main events will be hosted on Battefly.</p>
+            <a href="https://battlefy.com/radiance-angels" class="manga-btn platform-btn" target="_blank">
+                View Tournaments
+            </a>
+        </div> 
+</div> </div>
+<!-- Footer -->
+<footer>
+    <div class="footer-content">
+        <div class="footer-column" style="text-align: center; margin: 0 auto;">
+            <h3>ANQEL</h3>
+            <p>Tournament organizer. Owner of Radiance Angels & Cyber Sharks Esports.</p>
+            <div class="social-links" style="justify-content: center;">
+                <a href="https://discord.gg/b3Yr5wggcp" class="social-link" target="_blank">
+                    <i class="fab fa-discord"></i>
+                </a>
+                <a href="https://www.twitch.tv/anqelvlr" class="social-link" target="_blank">
+                    <i class="fab fa-twitch"></i>
+                </a>
+                <a href="https://twitter.com/jedxra" class="social-link" target="_blank">
+                    <i class="fab fa-twitter"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="copyright">
+        <p>© 2025 ANQEL</p>
+        <p style="margin-top: 10px;">NOT AFFILIATED WITH CHALLENGERMODE, BATTLEFY, RIOT GAMES, OR ANY MENTIONED PLATFORMS. <br> Riot Games, and all associated properties are trademarks or registered trademarks of Riot Games, Inc.</p>
+    </div>
+</footer>
+
+    <script>
+        // Mobile Menu
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const navLinks = document.getElementById('navLinks');
+        
+        mobileMenuBtn.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+            mobileMenuBtn.innerHTML = navLinks.classList.contains('active') 
+                ? 'CLOSE <i class="fas fa-times"></i>' 
+                : 'MENU <i class="fas fa-bars"></i>';
+        });
+        
+        // Close menu when clicking links
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                navLinks.classList.remove('active');
+                mobileMenuBtn.innerHTML = 'MENU <i class="fas fa-bars"></i>';
+            });
+        });
+        
+        // Smooth scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                if(targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if(targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 100,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+        
+        // Add entrance animation to sections
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+        
+        // Observe elements for entrance animation
+        document.querySelectorAll('.section, .tournament-card, .platform-card').forEach(element => {
+            element.style.opacity = '0';
+            element.style.transform = 'translateY(30px)';
+            element.style.transition = 'opacity 0.5s, transform 0.5s';
+            observer.observe(element);
+        });
+        
+        // Typewriter effect for name
+        const nameElement = document.querySelector('.name');
+        const originalText = nameElement.textContent;
+        nameElement.textContent = '';
+        
+        let i = 0;
+        function typeWriter() {
+            if (i < originalText.length) {
+                nameElement.textContent += originalText.charAt(i);
+                i++;
+                setTimeout(typeWriter, 50);
+            }
+        }
+        
+        // Start typewriter after page loads
+        window.addEventListener('load', () => {
+            setTimeout(typeWriter, 500);
+        });
+    </script>
+<!-- Fixed Music Player -->
+<div class="music-player">
+    <div class="player-header">
+        <div class="now-playing-header">
+            <div class="header-track" id="headerTrack">select track</div>
+            <div class="header-artist" id="headerArtist">kensuke ushio</div>
+        </div>
+        <button class="player-toggle" id="playerToggle">
+            <i class="fas fa-music"></i>
+        </button>
+    </div>
+    
+    <div class="player-body" id="playerBody">
+        <!-- Now Playing -->
+        <div class="now-playing">
+            <div class="track-info">
+                <div class="track-title" id="currentTrack">select a track</div>
+                <div class="track-artist" id="currentArtist">kensuke ushio</div>
+            </div>
+            
+            <!-- Progress Bar -->
+            <div class="progress-container">
+                <div class="progress-bar" id="progressBar">
+                    <div class="progress-fill" id="progressFill"></div>
+                </div>
+                <div class="time-display">
+                    <span id="currentTime">0:00</span>
+                    <span id="totalTime">0:00</span>
+                </div>
+            </div>
+            
+            <!-- Controls -->
+            <div class="player-controls">
+                <button class="ctrl-btn" id="prevBtn" title="previous">
+                    <i class="fas fa-step-backward"></i>
+                </button>
+                
+                <button class="ctrl-btn play-btn" id="playBtn" title="play/pause">
+                    <i class="fas fa-play" id="playIcon"></i>
+                </button>
+                
+                <button class="ctrl-btn" id="nextBtn" title="next">
+                    <i class="fas fa-step-forward"></i>
+                </button>
+                
+                <div class="volume-container">
+                    <button class="ctrl-btn volume-btn" id="muteBtn" title="mute">
+                        <i class="fas fa-volume-up" id="volumeIcon"></i>
+                    </button>
+                    <input type="range" id="volumeSlider" min="0" max="100" value="50" title="volume">
+                </div>
+            </div>
+        </div>
+        
+        <!-- Playlist -->
+        <div class="playlist" id="playlist">
+            <!-- Tracks will load here -->
+        </div>
+        
+        <!-- Footer -->
+        <div class="player-footer">
+            <p>music by kensuke ushio used on CSM</p>
+        </div>
+    </div>
+</div>
+
+<!-- Audio Element -->
+<audio id="audioPlayer"></audio>
+
+<style>
+    /* Music Player Styles */
+    .music-player {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        width: 320px;
+        background: rgba(0, 0, 0, 0.95);
+        border: 2px solid #ffffff;
+        z-index: 1000;
+        backdrop-filter: blur(10px);
+        box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+        font-family: 'Orbitron', monospace;
+    }
+    
+    .player-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px 15px;
+        background: rgba(255, 255, 255, 0.05);
+        border-bottom: 1px solid #ffffff;
+        cursor: move;
+        user-select: none;
+        min-height: 50px;
+    }
+    
+    .now-playing-header {
+        flex: 1;
+        overflow: hidden;
+        margin-right: 10px;
+    }
+    
+    .header-track {
+        font-size: 0.85rem;
+        font-weight: 700;
+        color: #ffffff;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        text-transform: lowercase;
+        letter-spacing: 0.5px;
+        line-height: 1.2;
+    }
+    
+    .header-artist {
+        font-size: 0.7rem;
+        color: #aaaaaa;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        text-transform: lowercase;
+        line-height: 1.2;
+    }
+    
+    .player-toggle {
+        background: none;
+        border: 1px solid #ffffff;
+        color: #ffffff;
+        width: 28px;
+        height: 28px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: all 0.3s;
+        font-size: 0.8rem;
+        flex-shrink: 0;
+    }
+    
+    .player-toggle:hover {
+        background: rgba(255, 255, 255, 0.1);
+    }
+    
+    .player-body {
+        padding: 0;
+        max-height: 400px;
+        overflow-y: auto;
+    }
+    
+    /* Now Playing Section */
+    .now-playing {
+        padding: 20px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .track-info {
+        margin-bottom: 15px;
+        text-align: center;
+    }
+    
+    .track-title {
+        font-size: 1rem;
+        font-weight: 700;
+        color: #ffffff;
+        margin-bottom: 3px;
+        letter-spacing: 1px;
+        text-transform: lowercase;
+    }
+    
+    .track-artist {
+        font-size: 0.8rem;
+        color: #aaaaaa;
+        font-weight: 500;
+        text-transform: lowercase;
+    }
+    
+    /* Progress Bar */
+    .progress-container {
+        margin: 15px 0;
+    }
+    
+    .progress-bar {
+        width: 100%;
+        height: 3px;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 2px;
+        overflow: hidden;
+        cursor: pointer;
+        margin-bottom: 5px;
+    }
+    
+    .progress-fill {
+        width: 0%;
+        height: 100%;
+        background: #ffffff;
+        transition: width 0.1s linear;
+    }
+    
+    .time-display {
+        display: flex;
+        justify-content: space-between;
+        font-size: 0.75rem;
+        color: #888888;
+        font-weight: 600;
+    }
+    
+    /* Controls */
+    .player-controls {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 12px;
+        margin-top: 20px;
+    }
+    
+    .ctrl-btn {
+        background: none;
+        border: 1px solid #ffffff;
+        color: #ffffff;
+        width: 32px;
+        height: 32px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: all 0.2s;
+        font-size: 0.8rem;
+    }
+    
+    .ctrl-btn:hover {
+        background: rgba(255, 255, 255, 0.1);
+    }
+    
+    .play-btn {
+        width: 36px;
+        height: 36px;
+        border-width: 2px;
+    }
+    
+    .play-btn:hover {
+        background: #ffffff;
+        color: #000000;
+    }
+    
+    .volume-container {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-left: 5px;
+    }
+    
+    .volume-btn {
+        min-width: 32px;
+    }
+    
+    #volumeSlider {
+        width: 60px;
+        height: 3px;
+        -webkit-appearance: none;
+        background: rgba(255, 255, 255, 0.2);
+        border-radius: 2px;
+        outline: none;
+        cursor: pointer;
+    }
+    
+    #volumeSlider::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        width: 10px;
+        height: 10px;
+        background: #ffffff;
+        border-radius: 50%;
+        cursor: pointer;
+    }
+    
+    #volumeSlider::-moz-range-thumb {
+        width: 10px;
+        height: 10px;
+        background: #ffffff;
+        border-radius: 50%;
+        cursor: pointer;
+        border: none;
+    }
+    
+    /* Playlist */
+    .playlist {
+        padding: 10px 0;
+        max-height: 200px;
+        overflow-y: auto;
+    }
+    
+    .playlist-item {
+        display: flex;
+        align-items: center;
+        padding: 10px 15px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        cursor: pointer;
+        transition: all 0.2s;
+        user-select: none;
+    }
+    
+    .playlist-item:hover {
+        background: rgba(255, 255, 255, 0.03);
+    }
+    
+    .playlist-item.active {
+        background: rgba(255, 255, 255, 0.08);
+        border-left: 2px solid #ffffff;
+    }
+    
+    .playlist-item.active .track-name {
+        color: #ffffff;
+        font-weight: 700;
+    }
+    
+    .track-number {
+        width: 20px;
+        font-size: 0.8rem;
+        color: #888888;
+        font-weight: 600;
+        margin-right: 10px;
+    }
+    
+    .track-details {
+        flex: 1;
+    }
+    
+    .track-name {
+        font-size: 0.85rem;
+        color: #cccccc;
+        margin-bottom: 2px;
+        font-weight: 600;
+        text-transform: lowercase;
+    }
+    
+    .track-duration {
+        font-size: 0.75rem;
+        color: #777777;
+    }
+    
+    .playlist-item i {
+        color: #888888;
+        font-size: 0.8rem;
+        opacity: 0;
+        transition: opacity 0.2s;
+    }
+    
+    .playlist-item:hover i {
+        opacity: 1;
+    }
+    
+    .playlist-item.active i {
+        opacity: 1;
+        color: #ffffff;
+    }
+    
+    /* Player Footer */
+    .player-footer {
+        padding: 12px 15px;
+        text-align: center;
+        font-size: 0.7rem;
+        color: #666666;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        background: rgba(0, 0, 0, 0.5);
+        text-transform: lowercase;
+    }
+    
+    /* Scrollbar */
+    .playlist::-webkit-scrollbar {
+        width: 4px;
+    }
+    
+    .playlist::-webkit-scrollbar-track {
+        background: rgba(255, 255, 255, 0.05);
+    }
+    
+    .playlist::-webkit-scrollbar-thumb {
+        background: rgba(255, 255, 255, 0.15);
+        border-radius: 2px;
+    }
+    
+    /* Collapsed State */
+    .music-player.collapsed {
+        width: auto;
+        height: auto;
+        min-width: 200px;
+    }
+    
+    .music-player.collapsed .player-body {
+        display: none;
+    }
+    
+    .music-player.collapsed .player-header {
+        border-bottom: none;
+        padding: 8px 12px;
+        min-height: 44px;
+    }
+    
+    .music-player.collapsed .now-playing-header {
+        max-width: 150px;
+    }
+</style>
+
+<script>
+    // ============================================
+    // PLAYLIST - ADD YOUR 4 MP3 LINKS HERE
+    // ============================================
+    const playlist = [
+        {
+            id: 1,
+            title: "sweet dreams",
+            artist: "kensuke ushio",
+            url: "https://raw.githubusercontent.com/JedXra/anqelcsm/refs/heads/main/sweet%20dreams.mp3",
+            duration: "2:26"
+        },
+        {
+            id: 2,
+            title: "past",
+            artist: "kensuke ushio",
+            url: "https://raw.githubusercontent.com/JedXra/anqelcsm/refs/heads/main/past.mp3",
+            duration: "1:13"
+        },
+        {
+            id: 3,
+            title: "reze",
+            artist: "kensuke ushio",
+            url: "https://raw.githubusercontent.com/JedXra/anqelcsm/refs/heads/main/reze.mp3",
+            duration: "3:40"
+        },
+        {
+            id: 4,
+            title: "in the pool",
+            artist: "kensuke ushio",
+            url: "https://raw.githubusercontent.com/JedXra/anqelcsm/refs/heads/main/in%20the%20pool.mp3",
+            duration: "5:06"
+        }
+    ];
+    
+    // ============================================
+    // PLAYER CODE
+    // ============================================
+    
+    // Player State
+    let currentTrackIndex = 0;
+    let isPlaying = false;
+    let volume = 0.5;
+    let hasUserInteracted = false;
+    
+    // DOM Elements
+    const audioPlayer = document.getElementById('audioPlayer');
+    const playerToggle = document.getElementById('playerToggle');
+    const playerBody = document.getElementById('playerBody');
+    const musicPlayer = document.querySelector('.music-player');
+    const playlistContainer = document.getElementById('playlist');
+    const currentTrackEl = document.getElementById('currentTrack');
+    const currentArtistEl = document.getElementById('currentArtist');
+    const headerTrack = document.getElementById('headerTrack');
+    const headerArtist = document.getElementById('headerArtist');
+    const playBtn = document.getElementById('playBtn');
+    const playIcon = document.getElementById('playIcon');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const muteBtn = document.getElementById('muteBtn');
+    const volumeIcon = document.getElementById('volumeIcon');
+    const volumeSlider = document.getElementById('volumeSlider');
+    const progressBar = document.getElementById('progressBar');
+    const progressFill = document.getElementById('progressFill');
+    const currentTimeEl = document.getElementById('currentTime');
+    const totalTimeEl = document.getElementById('totalTime');
+    
+    // Initialize Player
+    function initPlayer() {
+        console.log("Initializing music player...");
+        
+        // Start with player minimized (collapsed)
+        musicPlayer.classList.add('collapsed');
+        
+        // Render playlist
+        renderPlaylist();
+        
+        // Load first track
+        loadTrack(currentTrackIndex);
+        
+        // Set initial volume
+        audioPlayer.volume = volume;
+        audioPlayer.muted = false;
+        
+        // Add event listeners
+        audioPlayer.addEventListener('timeupdate', updateProgress);
+        audioPlayer.addEventListener('ended', playNext);
+        audioPlayer.addEventListener('loadedmetadata', updateDuration);
+        audioPlayer.addEventListener('error', handleAudioError);
+        
+        // Try autoplay when audio is ready
+        audioPlayer.addEventListener('canplay', () => {
+            console.log("Audio can play:", audioPlayer.src);
+            // Don't auto-attempt here - wait for interaction
+        });
+        
+        // Setup interaction-based autoplay
+        // setupInteractionAutoplay();
+        
+        console.log("Player initialized with", playlist.length, "tracks");
+        
+        // Show loading hint
+        headerTrack.textContent = "click or scroll to play";
+        headerArtist.textContent = "music by kensuke ushio";
+    }
+    
+    // Handle audio errors
+    function handleAudioError(e) {
+        console.error("Audio error:", audioPlayer.error);
+        console.error("Trying to play:", audioPlayer.src);
+        
+        headerTrack.textContent = "error loading";
+        headerArtist.textContent = "check file link";
+    }
+    
+    // Auto-play on load (if browser allows)
+    function attemptAutoplay() {
+        console.log("Attempting autoplay...");
+        
+        setTimeout(() => {
+            if (audioPlayer.readyState >= 2) {
+                audioPlayer.play()
+                    .then(() => {
+                        console.log("Autoplay successful!");
+                        isPlaying = true;
+                        playIcon.className = 'fas fa-pause';
+                        updateHeaderPlaying();
+                    })
+                    .catch(error => {
+                        console.log("Autoplay blocked:", error.name);
+                        headerTrack.textContent = playlist[currentTrackIndex].title;
+                        headerArtist.textContent = "click to play";
+                    });
+            }
+        }, 500);
+    }
+    
+    // Play on first user interaction
+    function setupInteractionAutoplay() {
+        console.log("Setting up interaction autoplay...");
+        
+        // Events that count as user interaction
+        const interactionEvents = [
+            'click', 'scroll', 'touchstart', 'keydown',
+            'mousedown', 'mouseover', 'wheel', 'drag'
+        ];
+        
+        // Function to handle first interaction
+        function handleFirstInteraction() {
+            if (!hasUserInteracted && audioPlayer.paused) {
+                hasUserInteracted = true;
+                console.log("User interacted, attempting to play...");
+                
+                // Remove all listeners after first interaction
+                interactionEvents.forEach(event => {
+                    document.removeEventListener(event, handleFirstInteraction);
+                });
+                
+                // Update header
+                headerTrack.textContent = playlist[currentTrackIndex].title;
+                headerArtist.textContent = "loading...";
+                
+                // Try to play
+                audioPlayer.play()
+                    .then(() => {
+                        console.log("Playback started via interaction");
+                        isPlaying = true;
+                        playIcon.className = 'fas fa-pause';
+                        updateHeaderPlaying();
+                    })
+                    .catch(error => {
+                        console.error("Interaction play failed:", error);
+                        headerTrack.textContent = playlist[currentTrackIndex].title;
+                        headerArtist.textContent = "click play button";
+                    });
+            }
+        }
+        
+        // Add listeners for all interaction types
+        interactionEvents.forEach(event => {
+            document.addEventListener(event, handleFirstInteraction, { 
+                passive: true 
+            });
+        });
+    }
+    
+    // Update header when playing
+    function updateHeaderPlaying() {
+        headerTrack.textContent = playlist[currentTrackIndex].title + " ▶";
+        headerArtist.textContent = "now playing";
+    }
+    
+    // Update header when not playing
+    function updateHeaderPaused() {
+        headerTrack.textContent = playlist[currentTrackIndex].title;
+        headerArtist.textContent = playlist[currentTrackIndex].artist;
+    }
+    
+    // Render playlist
+    function renderPlaylist() {
+        console.log("Rendering playlist...");
+        playlistContainer.innerHTML = '';
+        
+        playlist.forEach((track, index) => {
+            const item = document.createElement('div');
+            item.className = `playlist-item ${index === currentTrackIndex ? 'active' : ''}`;
+            item.innerHTML = `
+                <div class="track-number">${track.id}</div>
+                <div class="track-details">
+                    <div class="track-name">${track.title}</div>
+                    <div class="track-duration">${track.duration}</div>
+                </div>
+                <i class="fas fa-play"></i>
+            `;
+            
+            item.addEventListener('click', () => {
+                console.log("Clicked track:", track.title);
+                loadTrack(index);
+                playTrack();
+            });
+            
+            playlistContainer.appendChild(item);
+        });
+        
+        console.log("Playlist rendered with", playlist.length, "items");
+    }
+    
+    // Load track
+    function loadTrack(index) {
+        console.log("Loading track", index, playlist[index].title);
+        
+        currentTrackIndex = index;
+        const track = playlist[index];
+        
+        // Update UI - main display
+        currentTrackEl.textContent = track.title;
+        currentArtistEl.textContent = track.artist;
+        totalTimeEl.textContent = track.duration;
+        
+        // Update UI - header display
+        headerTrack.textContent = track.title;
+        headerArtist.textContent = track.artist;
+        
+        // Update active playlist item
+        document.querySelectorAll('.playlist-item').forEach((item, i) => {
+            item.classList.toggle('active', i === index);
+        });
+        
+        // Clear previous and load new audio
+        audioPlayer.src = track.url;
+        audioPlayer.load();
+        
+        // Reset progress
+        progressFill.style.width = '0%';
+        currentTimeEl.textContent = '0:00';
+        
+        // Update play button
+        isPlaying = false;
+        playIcon.className = 'fas fa-play';
+    }
+    
+    // Play/Pause
+    function togglePlay() {
+        console.log("Toggle play, paused:", audioPlayer.paused);
+        
+        if (audioPlayer.paused) {
+            playTrack();
+        } else {
+            pauseTrack();
+        }
+    }
+    
+    // Play track
+    function playTrack() {
+        console.log("Attempting to play audio...");
+        
+        audioPlayer.play()
+            .then(() => {
+                console.log("Playback started");
+                isPlaying = true;
+                playIcon.className = 'fas fa-pause';
+                updateHeaderPlaying();
+            })
+            .catch(error => {
+                console.error("Playback failed:", error);
+                updateHeaderPaused();
+            });
+    }
+    
+    // Pause track
+    function pauseTrack() {
+        audioPlayer.pause();
+        isPlaying = false;
+        playIcon.className = 'fas fa-play';
+        updateHeaderPaused();
+    }
+    
+    // Previous track
+    function playPrev() {
+        let newIndex = currentTrackIndex - 1;
+        if (newIndex < 0) newIndex = playlist.length - 1;
+        loadTrack(newIndex);
+        playTrack();
+    }
+    
+    // Next track
+    function playNext() {
+        let newIndex = currentTrackIndex + 1;
+        if (newIndex >= playlist.length) newIndex = 0;
+        loadTrack(newIndex);
+        playTrack();
+    }
+    
+    // Toggle mute
+    function toggleMute() {
+        audioPlayer.muted = !audioPlayer.muted;
+        
+        if (audioPlayer.muted) {
+            volumeIcon.className = 'fas fa-volume-mute';
+            volumeSlider.value = 0;
+        } else {
+            volumeIcon.className = volume < 0.5 ? 'fas fa-volume-down' : 'fas fa-volume-up';
+            volumeSlider.value = volume * 100;
+        }
+    }
+    
+    // Update volume
+    function updateVolume() {
+        volume = volumeSlider.value / 100;
+        audioPlayer.volume = volume;
+        audioPlayer.muted = false;
+        
+        if (volume === 0) {
+            volumeIcon.className = 'fas fa-volume-mute';
+        } else if (volume < 0.5) {
+            volumeIcon.className = 'fas fa-volume-down';
+        } else {
+            volumeIcon.className = 'fas fa-volume-up';
+        }
+    }
+    
+    // Update progress
+    function updateProgress() {
+        if (!audioPlayer.duration || isNaN(audioPlayer.duration)) return;
+        
+        const progressPercent = (audioPlayer.currentTime / audioPlayer.duration) * 100;
+        progressFill.style.width = `${progressPercent}%`;
+        currentTimeEl.textContent = formatTime(audioPlayer.currentTime);
+    }
+    
+    // Update duration display
+    function updateDuration() {
+        if (audioPlayer.duration && !isNaN(audioPlayer.duration)) {
+            totalTimeEl.textContent = formatTime(audioPlayer.duration);
+        }
+    }
+    
+    // Format time
+    function formatTime(seconds) {
+        const mins = Math.floor(seconds / 60);
+        const secs = Math.floor(seconds % 60);
+        return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
+    }
+    
+    // Seek in track
+    function seekTrack(e) {
+        if (!audioPlayer.duration || isNaN(audioPlayer.duration)) return;
+        
+        const progressBarRect = progressBar.getBoundingClientRect();
+        const clickPosition = e.clientX - progressBarRect.left;
+        const progressBarWidth = progressBarRect.width;
+        const percentage = clickPosition / progressBarWidth;
+        
+        audioPlayer.currentTime = audioPlayer.duration * percentage;
+        progressFill.style.width = `${percentage * 100}%`;
+    }
+    
+    // Draggable player
+    let isDragging = false;
+    let currentX, currentY, initialX, initialY, xOffset = 0, yOffset = 0;
+    
+    const playerHeader = document.querySelector('.player-header');
+    
+    playerHeader.addEventListener('mousedown', dragStart);
+    document.addEventListener('mousemove', drag);
+    document.addEventListener('mouseup', dragEnd);
+    
+    function dragStart(e) {
+        if (e.target.closest('.player-toggle')) return;
+        
+        initialX = e.clientX - xOffset;
+        initialY = e.clientY - yOffset;
+        
+        if (e.target === playerHeader || e.target.closest('.player-header')) {
+            isDragging = true;
+            musicPlayer.style.cursor = 'grabbing';
+        }
+    }
+    
+    function drag(e) {
+        if (isDragging) {
+            e.preventDefault();
+            currentX = e.clientX - initialX;
+            currentY = e.clientY - initialY;
+            
+            xOffset = currentX;
+            yOffset = currentY;
+            
+            setTranslate(currentX, currentY, musicPlayer);
+        }
+    }
+    
+    function setTranslate(xPos, yPos, el) {
+        el.style.transform = `translate3d(${xPos}px, ${yPos}px, 0)`;
+    }
+    
+    function dragEnd() {
+        isDragging = false;
+        musicPlayer.style.cursor = '';
+    }
+    
+    // Event Listeners
+    playerToggle.addEventListener('click', () => {
+        musicPlayer.classList.toggle('collapsed');
+        playerToggle.innerHTML = musicPlayer.classList.contains('collapsed') 
+            ? '<i class="fas fa-chevron-up"></i>' 
+            : '<i class="fas fa-music"></i>';
+    });
+    
+    playBtn.addEventListener('click', togglePlay);
+    prevBtn.addEventListener('click', playPrev);
+    nextBtn.addEventListener('click', playNext);
+    muteBtn.addEventListener('click', toggleMute);
+    volumeSlider.addEventListener('input', updateVolume);
+    progressBar.addEventListener('click', seekTrack);
+    
+    // Initialize on load
+    window.addEventListener('DOMContentLoaded', initPlayer);
+
+</script>
+</body>
+</html>
